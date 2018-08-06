@@ -7,7 +7,7 @@ High performance, eviction modes (TTL, NoTTL, Slide), goroutine safe inmemory ca
 
 ### News
 
-  * `v1.0.0` [released](https://github.com/go-aah/router/releases/latest) and tagged on TBD.
+  * `v0.1.0` [released](https://github.com/aahframework/inmemory-cache-provider/releases/latest) and tagged on TBD.
 
 ## Installation
 
@@ -16,6 +16,3 @@ go get -u aahframework.org/cache/inmemory
 ```
 
 Visit official website https://aahframework.org to learn more about `aah` framework.
-
-# inmemory-cache-provider
-aah inmemory cache provider
