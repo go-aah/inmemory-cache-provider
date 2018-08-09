@@ -35,7 +35,7 @@ func (p *Provider) Init(name string, _ *config.Config, _ log.Loggerer) error {
 // Create method creates new in-memory cache with given options.
 func (p *Provider) Create(cfg *cache.Config) (cache.Cache, error) {
 	p.cfg = cfg
-	c := &InMemory{
+	c := &inMemory{
 		cfg:     p.cfg,
 		mu:      sync.RWMutex{},
 		entries: make(map[string]entry),
@@ -52,22 +52,22 @@ func (p *Provider) Create(cfg *cache.Config) (cache.Cache, error) {
 // InMemory cache and implements cache.Cache interface
 //______________________________________________________________________________
 
-// InMemory struct represents in-memory cache implementation.
-type InMemory struct {
+// inMemory struct represents in-memory cache implementation.
+type inMemory struct {
 	cfg     *cache.Config
 	mu      sync.RWMutex
 	entries map[string]entry
 }
 
-var _ cache.Cache = (*InMemory)(nil)
+var _ cache.Cache = (*inMemory)(nil)
 
 // Name method returns the cache store name.
-func (im *InMemory) Name() string {
+func (im *inMemory) Name() string {
 	return im.cfg.Name
 }
 
 // Get method returns the cached entry for given key if it exists otherwise nil.
-func (im *InMemory) Get(k string) interface{} {
+func (im *inMemory) Get(k string) interface{} {
 	im.mu.RLock()
 	e, f := im.entries[k]
 	if f && !e.IsExpired() {
@@ -88,7 +88,7 @@ func (im *InMemory) Get(k string) interface{} {
 
 // GetOrPut method returns the cached entry for the given key if it exists otherwise
 // it puts the new entry into cache store and returns the value.
-func (im *InMemory) GetOrPut(k string, v interface{}, d time.Duration) interface{} {
+func (im *inMemory) GetOrPut(k string, v interface{}, d time.Duration) interface{} {
 	ev := im.Get(k)
 	if ev == nil {
 		_ = im.put(k, v, d)
@@ -99,24 +99,24 @@ func (im *InMemory) GetOrPut(k string, v interface{}, d time.Duration) interface
 
 // Put method adds the cache entry with specified expiration. Returns error
 // if cache entry exists.
-func (im *InMemory) Put(k string, v interface{}, d time.Duration) error {
+func (im *inMemory) Put(k string, v interface{}, d time.Duration) error {
 	return im.put(k, v, d)
 }
 
 // Delete method deletes the cache entry from cache store.
-func (im *InMemory) Delete(k string) {
+func (im *inMemory) Delete(k string) {
 	im.mu.Lock()
 	delete(im.entries, k)
 	im.mu.Unlock()
 }
 
 // Exists method checks given key exists in cache store and its not expried.
-func (im *InMemory) Exists(k string) bool {
+func (im *inMemory) Exists(k string) bool {
 	return im.Get(k) != nil
 }
 
 // Flush methods flushes(deletes) all the cache entries from cache.
-func (im *InMemory) Flush() {
+func (im *inMemory) Flush() {
 	im.mu.Lock()
 	im.entries = make(map[string]entry)
 	im.mu.Unlock()
@@ -126,7 +126,7 @@ func (im *InMemory) Flush() {
 // Cache type's unexported methods
 //______________________________________________________________________________
 
-func (im *InMemory) put(k string, v interface{}, d time.Duration) error {
+func (im *inMemory) put(k string, v interface{}, d time.Duration) error {
 	if ev := im.Get(k); ev == nil {
 		var exp int64
 		if d > 0 {
@@ -140,7 +140,7 @@ func (im *InMemory) put(k string, v interface{}, d time.Duration) error {
 	return cache.ErrEntryExists
 }
 
-func (im *InMemory) startSweeper() {
+func (im *inMemory) startSweeper() {
 	ticker := time.NewTicker(im.cfg.SweepInterval)
 	for {
 		<-ticker.C
