@@ -12,7 +12,7 @@ High performance, eviction modes (TTL, NoTTL, Slide), goroutine safe inmemory ca
 ## Installation
 
 ```bash
-go get -u aahframework.org/cache/inmemory
+go get -u aahframework.org/cache/provider/inmemory
 ```
 
 Visit official website https://aahframework.org to learn more about `aah` framework.

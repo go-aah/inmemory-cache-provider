@@ -1,8 +1,8 @@
 // Copyright (c) Jeevanandam M. (https://github.com/jeevatkm)
-// aahframework.org/cache/inmemory source code and usage is governed by a MIT style
+// aahframework.org/cache/provider/inmemory source code and usage is governed by a MIT style
 // license that can be found in the LICENSE file.
 
-package inmemory // import "aahframework.org/cache/inmemory"
+package inmemory // import "aahframework.org/cache/provider/inmemory"
 
 import (
 	"sync"
@@ -88,13 +88,15 @@ func (im *inMemory) Get(k string) interface{} {
 
 // GetOrPut method returns the cached entry for the given key if it exists otherwise
 // it puts the new entry into cache store and returns the value.
-func (im *inMemory) GetOrPut(k string, v interface{}, d time.Duration) interface{} {
+func (im *inMemory) GetOrPut(k string, v interface{}, d time.Duration) (interface{}, error) {
 	ev := im.Get(k)
 	if ev == nil {
-		_ = im.put(k, v, d)
-		return v
+		if err := im.put(k, v, d); err != nil {
+			return nil, err
+		}
+		return v, nil
 	}
-	return ev
+	return ev, nil
 }
 
 // Put method adds the cache entry with specified expiration. Returns error
@@ -104,10 +106,11 @@ func (im *inMemory) Put(k string, v interface{}, d time.Duration) error {
 }
 
 // Delete method deletes the cache entry from cache store.
-func (im *inMemory) Delete(k string) {
+func (im *inMemory) Delete(k string) error {
 	im.mu.Lock()
 	delete(im.entries, k)
 	im.mu.Unlock()
+	return nil
 }
 
 // Exists method checks given key exists in cache store and its not expried.
@@ -116,10 +119,11 @@ func (im *inMemory) Exists(k string) bool {
 }
 
 // Flush methods flushes(deletes) all the cache entries from cache.
-func (im *inMemory) Flush() {
+func (im *inMemory) Flush() error {
 	im.mu.Lock()
 	im.entries = make(map[string]entry)
 	im.mu.Unlock()
+	return nil
 }
 
 //‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
