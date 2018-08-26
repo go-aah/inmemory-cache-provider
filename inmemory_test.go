@@ -1,5 +1,5 @@
 // Copyright (c) Jeevanandam M. (https://github.com/jeevatkm)
-// aahframework.org/cache/inmemory source code and usage is governed by a MIT style
+// Source code and usage is governed by a MIT style
 // license that can be found in the LICENSE file.
 
 package inmemory
@@ -9,10 +9,9 @@ import (
 	"testing"
 	"time"
 
-	"aahframework.org/essentials.v0"
-
-	"aahframework.org/aah.v0/cache"
-	"aahframework.org/test.v0/assert"
+	"aahframe.work/aah/cache"
+	"aahframe.work/aah/essentials"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestInmemoryCacheAddAndGet(t *testing.T) {
@@ -91,7 +90,7 @@ func TestInmemoryMultipleCache(t *testing.T) {
 	names := []string{"testcache1", "testcache2", "testcache3"}
 	for _, name := range names {
 		err := mgr.CreateCache(&cache.Config{Name: name, ProviderName: "inmemory"})
-		assert.FailNowOnError(t, err, "unable to create cache")
+		assert.Nil(t, err, "unable to create cache")
 
 		c := mgr.Cache(name)
 		assert.NotNil(t, c)
@@ -120,7 +119,7 @@ func TestInmemorySlideEvictionMode(t *testing.T) {
 		EvictionMode:  cache.EvictionModeSlide,
 		SweepInterval: 2 * time.Second,
 	})
-	assert.FailNowOnError(t, err, "unable to create cache")
+	assert.Nil(t, err, "unable to create cache")
 
 	c := mgr.Cache("testslidemode")
 	assert.NotNil(t, c)
@@ -174,7 +173,7 @@ func createTestCache(t *testing.T, name string) cache.Cache {
 	mgr := createCacheMgr()
 
 	err := mgr.CreateCache(&cache.Config{Name: name, ProviderName: "inmemory", SweepInterval: 2 * time.Second})
-	assert.FailNowOnError(t, err, "unable to create cache")
+	assert.Nil(t, err, "unable to create cache")
 
 	c := mgr.Cache(name)
 	assert.NotNil(t, c)

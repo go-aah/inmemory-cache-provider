@@ -7,12 +7,12 @@ High performance, eviction modes (TTL, NoTTL, Slide), goroutine safe inmemory ca
 
 ### News
 
-  * `v0.1.0` [released](https://github.com/aahframework/inmemory-cache-provider/releases/latest) and tagged on TBD.
+  * `v0.1.0` [released](https://github.com/go-aah/inmemory-cache-provider/releases/latest) and tagged on TBD.
 
 ## Installation
 
 ```bash
-go get -u aahframework.org/cache/provider/inmemory
+go get -u aahframe.work/cache/provider/inmemory
 ```
 
 Visit official website https://aahframework.org to learn more about `aah` framework.
