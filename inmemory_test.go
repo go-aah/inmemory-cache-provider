@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"aahframe.work/aah/cache"
-	"aahframe.work/aah/essentials"
+	"aahframe.work/cache"
+	"aahframe.work/essentials"
 	"github.com/stretchr/testify/assert"
 )
 
