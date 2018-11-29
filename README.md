@@ -9,10 +9,25 @@ High performance, eviction modes (TTL, NoTTL, Slide), goroutine safe inmemory ca
 
   * `v0.1.0` [released](https://github.com/go-aah/inmemory-cache-provider/releases/latest) and tagged on TBD.
 
-## Installation
+## Usage
 
 ```bash
-go get -u aahframe.work/cache/provider/inmemory
+# go.mod
+require aahframe.work/cache/provider/inmemory v0.1.0
 ```
 
 Visit official website https://aahframework.org to learn more about `aah` framework.
+
+## Issues
+
+Please report issues at https://aahframework.org/issues.
+
+## Author
+
+[Jeevanandam M.](https://github.com/jeevatkm) (jeeva@myjeeva.com)
+
+## License
+
+`inmemory-cache-provider` released under MIT License.
+
+
